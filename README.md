@@ -1,1 +1,1 @@
-NVim Configuration
+# NVim Configuration
