@@ -17,7 +17,8 @@ vim.g.maplocalleader = " "
 
 
 -- Terminal Mode to Normal Mode
-tnoremap("<C-x>", "<C-\\><C-n")
+-- tnoremap("<C-x>", "<C-\\><C-n")
+vim.cmd [[tnoremap <C-x> <C-\><C-n>]]
 
 -- Resize Window by 10 Pixels
 nnoremap("<leader>pp", "10<C-w>>")

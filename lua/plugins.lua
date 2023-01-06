@@ -48,6 +48,9 @@ return require('packer').startup(function(use)
     config = function() require('plugins.cmp') end,
   })
 
+  -- VS Code Theme for NeoVim
+  use 'Mofiqul/vscode.nvim'
+
   -- Treesitter
   use({
     'nvim-treesitter/nvim-treesitter',
