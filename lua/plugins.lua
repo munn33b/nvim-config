@@ -33,6 +33,23 @@ return require('packer').startup(function(use)
   })
   use 'williamboman/nvim-lsp-installer'  -- Helper for installing most language servers
 
+  -- ChatGPT OpenAI
+
+-- Packer
+  use({
+    "jackMort/ChatGPT.nvim",
+      config = function()
+        require("chatgpt").setup({
+          -- optional configuration
+        })
+      end,
+      requires = {
+        "MunifTanjim/nui.nvim",
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope.nvim"
+      }
+  })
+
   -- Autocomplete
   use({
     "hrsh7th/nvim-cmp",
