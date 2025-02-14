@@ -111,6 +111,8 @@ nnoremap("<leader>ff", "<Cmd>Telescope find_files<CR>")
 nnoremap("<leader>fhf","<Cmd>Telescope find_files hidden=true<CR>")
 nnoremap("<leader>fb", "<Cmd>Telescope buffers<CR>")
 nnoremap("<leader>fg", "<Cmd>Telescope live_grep<CR>")
+nnoremap("<leader>t", "<Cmd>FloatermShow<CR>")
+nnoremap("<leader>l", "<Cmd>FloatermHide<CR>")
 
 -- File explorer
 nnoremap("<leader>e", "<Cmd>NvimTreeToggle<CR>")  -- NvimTree
