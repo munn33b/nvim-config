@@ -114,6 +114,14 @@ nnoremap("<leader>fg", "<Cmd>Telescope live_grep<CR>")
 nnoremap("<leader>t", "<Cmd>FloatermShow<CR>")
 nnoremap("<leader>l", "<Cmd>FloatermHide<CR>")
 
+-- Copilot Chat (inline suggestions use the Alt-key defaults, see plugins/copilot.lua)
+nnoremap("<leader>ct", "<Cmd>CopilotChatToggle<CR>")
+nnoremap("<leader>cm", "<Cmd>CopilotChatModels<CR>")
+nnoremap("<leader>cr", "<Cmd>CopilotChatReview<CR>")
+nnoremap("<leader>cf", "<Cmd>CopilotChatFix<CR>")
+vnoremap("<leader>ce", "<Cmd>CopilotChatExplain<CR>")
+vnoremap("<leader>cf", "<Cmd>CopilotChatFix<CR>")
+
 -- File explorer
 nnoremap("<leader>e", "<Cmd>NvimTreeToggle<CR>")  -- NvimTree
 -- nnoremap("<leader>e", "<Cmd>RnvimrToggle<CR>")

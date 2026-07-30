@@ -9,8 +9,8 @@ cmd([[autocmd ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]])
 
 -- This function defines the on_attach function for several languages which share the same key-bidings
 function M.common_on_attach(client, bufnr)
-  -- Set omnifunc
-  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  -- Set omnifunc (Nvim 0.11 also does this on attach, kept for clarity)
+  vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
   -- Helper function
   local opts = {noremap = true, silent = true}
@@ -46,8 +46,14 @@ function M.common_on_attach(client, bufnr)
   -- Markdown preview TODO: make this conditional, but I also don't use it all that much
   -- bufnnnoremap("<leader>P", "<Cmd>Glow<CR>")
 
+  -- NOTE: this branch has never fired -- the capability was renamed to
+  -- `documentFormattingProvider` back in Nvim 0.8, so format-on-save is off.
+  -- Rename the field below to turn it on.
   if client.server_capabilities.document_formatting then
-    cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      callback = function() vim.lsp.buf.format({async = false}) end,
+    })
   end
 end
 

@@ -1,19 +1,22 @@
-local nvim_lsp = require('lspconfig')
+-- Server setup using the Nvim 0.11+ API (`vim.lsp.config` / `vim.lsp.enable`).
+-- The per-server definitions (cmd, filetypes, root markers) come from the
+-- `lsp/` directory that nvim-lspconfig puts on the runtimepath, so there is no
+-- `require('lspconfig')` here -- that "framework" is deprecated.
+
 local utils = require('lsp.utils')
-local common_on_attach = utils.common_on_attach
 
 -- add capabilities from nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Enable language servers with common settings
-local servers = {"intelephense","bashls", "clangd", "pyright", "jsonls", "dockerls"}
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup({
-    on_attach = common_on_attach,
-    capabilities = capabilities,
-  })
-end
+-- Common settings, merged into every server config
+vim.lsp.config('*', {
+  on_attach = utils.common_on_attach,
+  capabilities = capabilities,
+})
+
+-- Enable language servers
+vim.lsp.enable({"intelephense", "bashls", "clangd", "pyright", "jsonls", "dockerls"})
 
 -- require('lsp.sumneko')
 

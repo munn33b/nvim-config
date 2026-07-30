@@ -50,6 +50,21 @@ return require('packer').startup(function(use)
       }
   })
 
+  -- GitHub Copilot
+  use({
+    'zbirenbaum/copilot.lua',
+    config = function() require('plugins.copilot') end
+  })
+
+  use({
+    'CopilotC-Nvim/CopilotChat.nvim',
+    requires = {
+      'zbirenbaum/copilot.lua',
+      'nvim-lua/plenary.nvim'
+    },
+    config = function() require('plugins.copilotchat') end
+  })
+
   -- Autocomplete
   use({
     "hrsh7th/nvim-cmp",

@@ -18,15 +18,15 @@ require('lualine').setup({
       {
         function()
           local msg = 'No LSP'
-          local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-          local clients = vim.lsp.get_active_clients()
+          local buf_ft = vim.bo.filetype
+          local clients = vim.lsp.get_clients()
 
           if next(clients) == nil  then
             return msg
           end
 
           -- Check for utility buffers
-          for ft in non_language_ft do
+          for _, ft in ipairs(non_language_ft) do
             if ft:match(buf_ft) then
               return ''
             end
