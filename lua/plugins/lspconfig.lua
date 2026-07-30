@@ -5,18 +5,33 @@
 
 local utils = require('lsp.utils')
 
+local servers = {"intelephense", "bashls", "clangd", "pyright", "jsonls", "dockerls"}
+
+-- Must run first: this is what puts ~/.local/share/nvim/mason/bin on $PATH,
+-- so the servers below are found when they start.
+require('mason').setup()
+
 -- add capabilities from nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Common settings, merged into every server config
+-- Capabilities are safe to merge into every server config; the buffer-local
+-- keymaps are registered via LspAttach instead (see lua/lsp/utils.lua).
 vim.lsp.config('*', {
-  on_attach = utils.common_on_attach,
   capabilities = capabilities,
 })
 
--- Enable language servers
-vim.lsp.enable({"intelephense", "bashls", "clangd", "pyright", "jsonls", "dockerls"})
+utils.setup()
+
+-- Installs anything in `servers` that is missing, and enables the ones that
+-- are present (`automatic_enable` defaults to true). Use `:Mason` to browse.
+require('mason-lspconfig').setup({
+  ensure_installed = servers,
+})
+
+-- Also enable explicitly, so servers installed outside mason (system packages)
+-- still start. Harmless for the ones mason-lspconfig already enabled.
+vim.lsp.enable(servers)
 
 -- require('lsp.sumneko')
 

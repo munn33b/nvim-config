@@ -7,6 +7,31 @@ local M = {}
 cmd([[autocmd ColorScheme * highlight NormalFloat guibg=#1f2335]])
 cmd([[autocmd ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]])
 
+-- Registers the buffer-local setup below on LspAttach.
+--
+-- NOTE: deliberately not passed as `on_attach` to vim.lsp.config('*'). Nvim
+-- resolves a server config as
+--   tbl_deep_extend('force', config['*'], <runtimepath lsp/*.lua>, <per-server>)
+-- so a server definition that ships its own on_attach (nvim-lspconfig does for
+-- pyright, among others) silently overwrites the wildcard one. LspAttach is
+-- additive, so every client gets it.
+function M.setup()
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('user_lsp_attach', {clear = true}),
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+      -- Copilot & friends attach to every buffer but serve none of these
+      -- requests -- don't let them install the keymaps.
+      if not client or not client:supports_method('textDocument/definition') then
+        return
+      end
+
+      M.common_on_attach(client, args.buf)
+    end,
+  })
+end
+
 -- This function defines the on_attach function for several languages which share the same key-bidings
 function M.common_on_attach(client, bufnr)
   -- Set omnifunc (Nvim 0.11 also does this on attach, kept for clarity)

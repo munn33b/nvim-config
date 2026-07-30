@@ -26,12 +26,17 @@ return require('packer').startup(function(use)
   -- Let Packer manage itself
   use({'wbthomason/packer.nvim', opt = true})
 
-  -- LSP server
+  -- LSP: mason installs the server binaries, nvim-lspconfig ships their
+  -- definitions. Listed as `requires` so both are loaded before the config
+  -- below runs -- mason.setup() has to prepend its bin/ to $PATH first.
   use({
     'neovim/nvim-lspconfig',
+    requires = {
+      'mason-org/mason.nvim',
+      'mason-org/mason-lspconfig.nvim',
+    },
     config = function() require('plugins.lspconfig') end
   })
-  use 'williamboman/nvim-lsp-installer'  -- Helper for installing most language servers
 
   -- ChatGPT OpenAI
 
