@@ -64,9 +64,10 @@ function M.common_on_attach(client, bufnr)
   -- Rename all references of symbol
   bufnnoremap("<leader>R", "<Cmd>lua vim.lsp.buf.rename()<CR>")
 
-  -- Navigate diagnostics
-  bufnnoremap("<C-n>", "<Cmd>lua vim.diagnostic.goto_next()<CR>")
-  bufnnoremap("<C-p>", "<Cmd>lua vim.diagnostic.goto_prev()<CR>")
+  -- Navigate diagnostics. `float = true` is passed explicitly: the old
+  -- goto_next/goto_prev defaulted to it, vim.diagnostic.jump() does not.
+  bufnnoremap("<C-n>", "<Cmd>lua vim.diagnostic.jump({count = 1, float = true})<CR>")
+  bufnnoremap("<C-p>", "<Cmd>lua vim.diagnostic.jump({count = -1, float = true})<CR>")
 
   -- Markdown preview TODO: make this conditional, but I also don't use it all that much
   -- bufnnnoremap("<leader>P", "<Cmd>Glow<CR>")

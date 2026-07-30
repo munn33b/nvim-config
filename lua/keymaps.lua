@@ -111,6 +111,7 @@ nnoremap("<leader>ff", "<Cmd>Telescope find_files<CR>")
 nnoremap("<leader>fhf","<Cmd>Telescope find_files hidden=true<CR>")
 nnoremap("<leader>fb", "<Cmd>Telescope buffers<CR>")
 nnoremap("<leader>fg", "<Cmd>Telescope live_grep<CR>")
+nnoremap("<leader>fd", "<Cmd>Telescope diagnostics bufnr=0<CR>")  -- current file only
 nnoremap("<leader>t", "<Cmd>FloatermShow<CR>")
 nnoremap("<leader>l", "<Cmd>FloatermHide<CR>")
 
