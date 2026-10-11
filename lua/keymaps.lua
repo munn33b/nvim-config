@@ -123,6 +123,26 @@ nnoremap("<leader>cf", "<Cmd>CopilotChatFix<CR>")
 vnoremap("<leader>ce", "<Cmd>CopilotChatExplain<CR>")
 vnoremap("<leader>cf", "<Cmd>CopilotChatFix<CR>")
 
+-- Claude Code (see plugins/claudecode.lua)
+nnoremap("<leader>ac", "<Cmd>ClaudeCode<CR>")
+nnoremap("<leader>af", "<Cmd>ClaudeCodeFocus<CR>")
+nnoremap("<leader>ar", "<Cmd>ClaudeCode --resume<CR>")
+nnoremap("<leader>aC", "<Cmd>ClaudeCode --continue<CR>")
+nnoremap("<leader>am", "<Cmd>ClaudeCodeSelectModel<CR>")
+nnoremap("<leader>ab", "<Cmd>ClaudeCodeAdd %<CR>")
+vnoremap("<leader>as", "<Cmd>ClaudeCodeSend<CR>")
+nnoremap("<leader>aa", "<Cmd>ClaudeCodeDiffAccept<CR>")
+nnoremap("<leader>ad", "<Cmd>ClaudeCodeDiffDeny<CR>")
+
+-- In nvim-tree, <leader>as adds the file under the cursor instead
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("user_claudecode_tree", {clear = true}),
+  pattern = "NvimTree",
+  callback = function(args)
+    vim.keymap.set("n", "<leader>as", "<Cmd>ClaudeCodeTreeAdd<CR>", {buffer = args.buf, silent = true})
+  end,
+})
+
 -- File explorer
 nnoremap("<leader>e", "<Cmd>NvimTreeToggle<CR>")  -- NvimTree
 -- nnoremap("<leader>e", "<Cmd>RnvimrToggle<CR>")

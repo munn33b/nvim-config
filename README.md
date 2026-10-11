@@ -2,7 +2,8 @@
 
 Personal Neovim setup: Lua config, [packer.nvim](https://github.com/wbthomason/packer.nvim)
 for plugins, [mason.nvim](https://github.com/mason-org/mason.nvim) for language servers,
-and GitHub Copilot for completion and chat.
+GitHub Copilot for completion and chat, and Claude Code via
+[claudecode.nvim](https://github.com/coder/claudecode.nvim).
 
 **Leader key is `<Space>`** (both `mapleader` and `maplocalleader`).
 
@@ -15,6 +16,7 @@ and GitHub Copilot for completion and chat.
 | Neovim | **0.11+** | `vim.lsp.config`, `vim.diagnostic.jump`, copilot.lua, Telescope all require it |
 | Node.js | **22.13+** | GitHub Copilot language server refuses anything older |
 | git, curl, make | any recent | plugin install, CopilotChat, `telescope-fzf-native` |
+| [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) | any recent | `claude` on `$PATH` — claudecode.nvim launches it |
 | A Nerd Font | — | icons in nvim-tree, bufferline, lualine |
 
 Optional:
@@ -254,6 +256,45 @@ picker after a plan change and update the `model` line.
 
 ---
 
+## Claude Code
+
+`claudecode.nvim` speaks the same protocol as the official VS Code extension: Claude
+sees the current file and selection, and proposes edits as diffs inside Neovim. It runs
+in a [snacks.nvim](https://github.com/folke/snacks.nvim) terminal split on the right.
+
+| Key | Action |
+| --- | --- |
+| `<leader>ac` | Toggle Claude terminal |
+| `<leader>af` | Focus Claude terminal |
+| `<leader>ar` / `<leader>aC` | Resume a past session / continue the last one |
+| `<leader>am` | Pick a model, then open Claude |
+| `<leader>ab` | Add current file to Claude's context |
+| `<leader>as` | Send selection (visual) — in nvim-tree, add the file under the cursor |
+| `<leader>aa` / `<leader>ad` | Accept / reject the proposed diff |
+
+A diff can also be accepted with `:w` or rejected with `:q`, and you can edit Claude's
+version before accepting.
+
+Inside the Claude terminal, `<C-x>` returns to Normal mode so the `<leader>a` keys work
+again. A quick double `<Esc>` does the same (a snacks default), so Claude never sees a
+fast Esc-Esc. To hand it to Claude instead, add
+`snacks_win_opts = { keys = { term_normal = false } }` to `terminal` in
+`lua/plugins/claudecode.lua`.
+
+With the cursor in the Claude window, the first `:qa` only closes Claude — snacks shuts
+its terminals on exit, and Neovim cancels a quit whose window vanished. Run it again, or
+quit from a code window.
+
+Every Neovim instance starts the plugin's WebSocket server (127.0.0.1 only,
+token-authenticated), so a `claude` started in another terminal can attach with `/ide`.
+`:ClaudeCodeStatus` shows whether a client is connected.
+
+snacks.nvim is only providing the terminal; its other modules are off. Turn them on in
+`lua/plugins/snacks.lua` — dashboard, explorer and picker duplicate alpha-nvim,
+nvim-tree and Telescope.
+
+---
+
 ## Editor defaults worth knowing
 
 - Relative line numbers, cursorline, always-visible sign column
@@ -286,6 +327,10 @@ clone it manually into
 ```sh
 cd ~/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim && make
 ```
+
+**`:ClaudeCode` opens a terminal that exits straight away.** `claude` probably isn't on
+the `$PATH` Neovim inherited — `:checkhealth claudecode` says for sure. Set
+`terminal_cmd` in `lua/plugins/claudecode.lua` to the output of `which claude`.
 
 **`OPENAI_API_KEY variable not set` on startup.** ChatGPT.nvim, harmless. Export the key
 or remove the plugin from `plugins.lua`.

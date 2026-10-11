@@ -70,6 +70,19 @@ return require('packer').startup(function(use)
     config = function() require('plugins.copilotchat') end
   })
 
+  -- Claude Code. snacks.nvim supplies the terminal Claude runs in; it gets its
+  -- own entry so plugins/snacks.lua can switch on more of its modules later.
+  use({
+    'folke/snacks.nvim',
+    config = function() require('plugins.snacks') end
+  })
+
+  use({
+    'coder/claudecode.nvim',
+    requires = 'folke/snacks.nvim',
+    config = function() require('plugins.claudecode') end
+  })
+
   -- Autocomplete
   use({
     "hrsh7th/nvim-cmp",
