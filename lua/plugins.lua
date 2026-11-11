@@ -207,6 +207,13 @@ use {
 
   -- note taking with zettelkasten
 
+  -- Mind maps: visualise OPML / Markdown outlines as a TUI tree or 2D map.
+  -- Standalone plugin (source lives in its own repo); :MindMap / <leader>mm.
+  use({
+    'munn33b/mindmap.nvim',
+    config = function() require('mindmap').setup({}) end,
+  })
+
   -- Themes
 --  use 'folke/tokyonight.nvim'
   use 'marko-cerovac/material.nvim'

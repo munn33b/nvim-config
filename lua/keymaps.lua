@@ -150,3 +150,6 @@ nnoremap("<leader>e", "<Cmd>NvimTreeToggle<CR>")  -- NvimTree
 -- EasyAlign
 -- xmap("ga", "<cmd>EasyAlign")
 -- nmap("ga", "<cmd>EasyAlign")
+
+-- Mind map (munn33b/mindmap.nvim): visualise the current OPML/Markdown outline
+nnoremap("<leader>mm", "<Cmd>MindMap<CR>")
